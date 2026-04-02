@@ -1,0 +1,178 @@
+/*
+Theme Name:   50图
+Theme URI:    https://ttdh.eu.org
+Author:       叶红叶
+Author URI:   https://ttdh.eu.org
+Description:  响应式现代主题，集成区块编辑器增强功能。
+Version:      1.0.0
+Requires at least: 6.0
+Tested up to:  6.5
+Requires PHP: 7.0
+Text Domain:  my-custom-theme
+Tags:         blog, one-column, custom-header, custom-logo, editor-style, featured-images, theme-options, translation-ready
+*/
+
+
+/* ======= Global Styles ======= */
+
+body {
+	-webkit-backface-visibility:hidden;
+	margin:0;
+	padding:0;
+	background:#fff8dc;
+	font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+a {
+	text-decoration:none;
+}
+
+/* 头部菜单 */
+.container {
+	height:80px;
+	color:#fff;
+	background:#888fdc;
+	line-height:80px;
+}
+.main {
+	width:80%;
+	margin:0 auto;
+}
+.main .title {
+	font-size:20px;
+	color:#fff;
+	border:1px solid #ddd;
+	padding:10px;
+}
+.main .desc {
+	padding-left:15px;
+	font-size:16px;
+}
+.main .web_address {
+	padding-left:15px;
+	font-size:14px;
+	border:0;
+	color:#ff0;
+}
+.main .socia {
+	float:right;
+	margin-right:20px;
+	font-size:16px;
+}
+.main .socia a img {
+	width:20px;
+}
+
+/* 时间线 */
+.gradient-line {
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	width:100%;
+}
+.dline {
+	flex-grow:1;
+	height:1px;
+	background-image:linear-gradient(to right,#4CAF50,#ff9900);
+}
+.date_text {
+	margin:0 10px;
+	color:red;
+	font-size:16px;
+	font-weight:bold;
+}
+
+/* 50图 */
+.waterfall {
+	width:80%;
+	column-gap:10px;
+	column-count:4;
+	margin:0 auto;
+}
+.item {
+	padding:10px;
+	margin-bottom:10px;
+	break-inside:avoid;
+	border:1px solid #75878a;
+}
+.item img {
+	width:100%;
+}
+.fancybox-custom .fancybox-skin {
+	box-shadow:0 0 50px #222;
+}
+
+/* footer */
+.footer {
+	text-align: center;
+	font-family: Arial, sans-serif;
+	padding: 10px 0; /* 上下内边距控制整体间距 */
+}
+        
+.footer .footer-line {
+	margin: 8px 0; /* 控制每行之间的间距 */
+}
+
+.footer .line {
+	width:100%;
+	margin:10px auto;
+	border:none;
+	height:2px;
+	background-image:linear-gradient(to right,#9BE15D,#00E3AE);
+}
+.footer .footer-line:nth-child(2) {
+	font-size:20px;
+	color:#fff;
+	background:#229900;
+	width:250px;
+	margin:5px auto;
+	padding:10px;
+}
+
+
+/* 回到顶部 */
+.back-top {
+	position:fixed;
+	bottom:100px;
+	right:10px;
+	cursor:pointer;
+	z-index:99;
+	transition:opacity 0.5s ease-in-out;
+}
+.back-top img {
+	width:40px;
+	height:40px;
+}
+.back-top:hover {
+	transform:scale(1.1);
+}
+.back-top:focus {
+	outline:2px dashed #0073aa;
+	outline-offset:3px;
+}
+
+/* 媒体查询 */
+@media (min-width:992px) and (max-width:1300px) {
+	.waterfall {
+		column-count:3;
+	}
+}@media (min-width:768px) and (max-width:991px) {
+	.waterfall {
+		column-count:2;
+	}
+}@media (max-width:767px) {
+	.waterfall {
+		column-count:1;
+	}
+	.waterfall,.main {
+		width:95%
+	}
+	.socia {
+		display:none;
+	}
+	.main a {
+		font-size:16px;
+	}
+	.main span {
+		font-size:14px;
+	}
+}
