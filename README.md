@@ -1,7 +1,8 @@
 <div align="center">
+
 ## 美图库 - 高清美图瀑布流展示
 
-> 💡 一个精美的响应式图片瀑布流展示网页，支持灯箱浏览、自动播放、键盘导航等功能。
+一个精美的响应式图片瀑布流展示网页，支持灯箱浏览、自动播放、键盘导航等功能。
 
 </div>
 
@@ -15,7 +16,11 @@
 
 ![预览图片](https://github.com/opai8/50tu/blob/main/screenshot/image1.png?raw=true)
 ![预览图片](https://github.com/opai8/50tu/blob/main/screenshot/image2.png?raw=true)
+
+> 💡 移动端效果[单栏/双栏]
+
 ![预览图片](screenshot/iapp1.png?raw=true)
+<< OR >>
 ![预览图片](screenshot/iapp2.png?raw=true)
 
 
