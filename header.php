@@ -79,6 +79,142 @@
 </div>
 <?php endif; ?>
 
+<!-- ========== 广告区域 ========== -->
+<?php
+/**
+ * 广告区域渲染逻辑
+ * 
+ * 数据来源：WordPress 自定义选项 opt_ad
+ * 布局规则：
+ * - 0 个广告：不显示广告区域和分割线
+ * - 1 个广告：单条横幅全屏
+ * - 2 个广告：两条横幅全屏
+ * - 3 个广告：第一条横幅全屏 + 后两条双列并排
+ * 静态测试：WP_DEBUG 模式下自动加载测试数据
+ */
+
+// 1. 获取广告配置数据（使用封装函数，已过滤启用的广告）
+$enabled_ads = meitu_get_advertisements();
+
+// 2. 开发环境：如果无数据，加载静态测试数据（便于调试）
+if ( empty( $enabled_ads ) && defined( 'WP_DEBUG' ) ) {
+    $enabled_ads = array(
+        array(
+            'ad_id'       => 'ad1',
+            'ad_img'      => 'https://a.hinimg.com/hm-files/2026/04/f6db47efb8d1e9f3c7f44f244c681fb7.jpg',
+            'ad_url'      => 'https://example.com/ad1',
+            'ad_switcher' => '1',
+        ),
+        array(
+            'ad_id'       => 'ad2',
+            'ad_img'      => 'https://a.hinimg.com/hm-files/2026/04/588fe9a506860a6fd02db1c17be7a89c.jpg',
+            'ad_url'      => 'https://example.com/ad2',
+            'ad_switcher' => '1',
+        ),
+        array(
+            'ad_id'       => 'ad3',
+            'ad_img'      => 'https://a.hinimg.com/hm-files/2026/04/588fe9a506860a6fd02db1c17be7a89c.jpg',
+            'ad_url'      => 'https://example.com/ad3',
+            'ad_switcher' => '1',
+        ),
+    );
+}
+
+// 3. 获取广告总数
+$ad_count = count( $enabled_ads );
+
+// 4. 根据广告数量渲染不同布局
+if ( $ad_count > 0 ) :
+?>
+<div class="ad-container">
+    <?php if ( 1 === $ad_count ) : ?>
+        <!-- 情况 1：只有 1 个广告 → 单条横幅全屏 -->
+        <div class="ad-banner">
+            <a href="<?php echo esc_url( $enabled_ads[0]['ad_url'] ); ?>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="ad-link">
+                <img src="<?php echo esc_url( $enabled_ads[0]['ad_img'] ); ?>" 
+                     alt="广告" 
+                     loading="lazy">
+                <span class="ad-badge">AD</span>
+            </a>
+        </div>
+
+    <?php elseif ( 2 === $ad_count ) : ?>
+        <!-- 情况 2：有 2 个广告 → 两条横幅全屏 -->
+        <div class="ad-banner">
+            <a href="<?php echo esc_url( $enabled_ads[0]['ad_url'] ); ?>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="ad-link">
+                <img src="<?php echo esc_url( $enabled_ads[0]['ad_img'] ); ?>" 
+                     alt="广告" 
+                     loading="lazy">
+                <span class="ad-badge">AD</span>
+            </a>
+        </div>
+        <div class="ad-banner">
+            <a href="<?php echo esc_url( $enabled_ads[1]['ad_url'] ); ?>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="ad-link">
+                <img src="<?php echo esc_url( $enabled_ads[1]['ad_img'] ); ?>" 
+                     alt="广告" 
+                     loading="lazy">
+                <span class="ad-badge">AD</span>
+            </a>
+        </div>
+
+    <?php elseif ( $ad_count >= 3 ) : ?>
+        <!-- 情况 3：有 3 个或更多广告 → 第一条横幅 + 后两条双列（最多显示 3 个） -->
+        
+        <!-- 第一行：横幅广告（第 1 个） -->
+        <div class="ad-banner">
+            <a href="<?php echo esc_url( $enabled_ads[0]['ad_url'] ); ?>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="ad-link">
+                <img src="<?php echo esc_url( $enabled_ads[0]['ad_img'] ); ?>" 
+                     alt="广告" 
+                     loading="lazy">
+                <span class="ad-badge">AD</span>
+            </a>
+        </div>
+        
+        <!-- 第二行：双列广告（第 2、3 个） -->
+        <div class="ad-grid">
+            <div class="ad-item">
+                <a href="<?php echo esc_url( $enabled_ads[1]['ad_url'] ); ?>" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="ad-link">
+                    <img src="<?php echo esc_url( $enabled_ads[1]['ad_img'] ); ?>" 
+                         alt="广告" 
+                         loading="lazy">
+                    <span class="ad-badge">AD</span>
+                </a>
+            </div>
+            <div class="ad-item">
+                <a href="<?php echo esc_url( $enabled_ads[2]['ad_url'] ); ?>" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="ad-link">
+                    <img src="<?php echo esc_url( $enabled_ads[2]['ad_img'] ); ?>" 
+                         alt="广告" 
+                         loading="lazy">
+                    <span class="ad-badge">AD</span>
+                </a>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<!-- 广告与内容分割线（仅在有广告时显示） -->
+<div class="ad-content-divider"></div>
+
+<?php endif; ?>
+
 <!-- ========== 布局切换按钮（仅移动端显示） ========== -->
 <div class="layout-toggle-bar">
     <button class="layout-toggle-btn" id="layoutToggle">

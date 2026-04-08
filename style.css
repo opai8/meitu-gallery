@@ -199,6 +199,53 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
     height: auto;
 }
 
+/* ========== 瀑布流广告样式 ========== */
+/* 瀑布流广告容器 */
+.waterfall-item.waterfall-ad {
+    cursor: pointer;
+    break-inside: avoid;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.waterfall-item.waterfall-ad:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* 瀑布流广告链接 */
+.waterfall-ad-link {
+    display: block;
+    position: relative;
+    text-decoration: none;
+}
+
+/* 瀑布流广告图片：高度自适应 */
+.waterfall-ad-link img {
+    display: block;
+    width: 100%;
+    height: auto;  /* 高度自适应，保持原始比例 */
+}
+
+/* 瀑布流广告 AD 标识 */
+.waterfall-item.waterfall-ad .ad-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 4px;
+    z-index: 10;
+    letter-spacing: 0.5px;
+    pointer-events: none;  /* 不阻止点击事件 */
+}
+
 /* ========== 无图片提示 ========== */
 .no-images-notice {
     /* 在瀑布流容器中居中显示 */
@@ -386,6 +433,112 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
     box-shadow: 0 2px 8px rgba(106, 27, 154, 0.3);
 }
 
+/* ====================================================
+   广告区域样式
+   布局：横幅广告（全宽）+ 双列广告（并排）
+   ==================================================== */
+
+/* 广告容器：限制最大宽度并居中 */
+.ad-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+/* ---------- 横幅广告 ---------- */
+.ad-banner {
+    margin-bottom: 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    min-height: 60px;  /* 最小高度保障 */
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ad-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 横幅广告图片：固定高度，保持比例裁剪 */
+.ad-banner img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;  /* 保持宽高比，超出部分裁剪 */
+    display: block;
+}
+
+/* ---------- 双列广告 ---------- */
+.ad-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);  /* 两列等宽 */
+    gap: 12px;
+}
+
+.ad-item {
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    min-height: 80px;  /* 最小高度保障 */
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ad-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 双列广告图片：固定高度，保持比例裁剪 */
+.ad-item img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;  /* 保持宽高比，超出部分裁剪 */
+    display: block;
+}
+
+/* ---------- 广告链接 ---------- */
+.ad-link {
+    display: block;
+    position: relative;
+    text-decoration: none;
+}
+
+/* ---------- AD 标识 ---------- */
+.ad-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 4px;
+    z-index: 10;
+    letter-spacing: 0.5px;
+}
+
+/* ====================================================
+   广告与内容分割线
+   紫色渐变，带发光效果
+   ==================================================== */
+.ad-content-divider {
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%,      /* 左侧透明 */
+        #667eea 15%,         /* 蓝紫色 */
+        #764ba2 30%,         /* 深紫色 */
+        #f093fb 50%,         /* 粉色（中心最亮） */
+        #764ba2 70%,         /* 深紫色 */
+        #667eea 85%,         /* 蓝紫色 */
+        transparent 100%     /* 右侧透明 */
+    );
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);  /* 发光效果 */
+    border-radius: 2px;
+}
+
 /* ========== 页脚 ========== */
 .site-footer {
     max-width: 1400px;
@@ -475,6 +628,20 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
         padding: 4px 8px;
     }
     .notice-bar { font-size: 12px; }
+    
+    /* ---------- 广告区域：平板端适配 ---------- */
+    .ad-container { padding: 10px; }
+    .ad-banner { 
+        margin-bottom: 8px;
+        min-height: 50px;  /* 减小最小高度 */
+    }
+    .ad-banner img { height: 70px; }  /* 横幅图片高度 */
+    .ad-grid { gap: 8px; }
+    .ad-item { min-height: 70px; }  /* 减小最小高度 */
+    .ad-item img { height: 90px; }  /* 双列图片高度 */
+    .ad-badge { font-size: 10px; padding: 2px 6px; }
+    .ad-content-divider { margin: 0 10px; }
+    
     .back-to-top { width: 40px; height: 40px; bottom: 24px; right: 16px; }
 }
 @media (max-width: 480px) {
@@ -506,6 +673,31 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
     }
     .site-header .nav-right a:last-child {
         display: none;
+    }
+    .notice-bar { font-size: 11px; }
+    
+    /* ---------- 广告区域：手机端适配 ---------- */
+    .ad-container { padding: 8px; }
+    .ad-banner { 
+        min-height: 45px;  /* 进一步减小 */
+        margin-bottom: 6px;
+    }
+    .ad-banner img { height: 60px; }  /* 横幅图片高度 */
+    .ad-grid {
+        grid-template-columns: 1fr;  /* 改为单列 */
+        gap: 6px;
+    }
+    .ad-item { min-height: 60px; }  /* 进一步减小 */
+    .ad-item img { height: 80px; }  /* 双列图片高度 */
+    .ad-badge {
+        font-size: 9px;
+        padding: 2px 5px;
+        top: 6px;
+        right: 6px;
+    }
+    .ad-content-divider { 
+        margin: 0 8px;
+        height: 2px;  /* 更细的分割线 */
     }
 }
 

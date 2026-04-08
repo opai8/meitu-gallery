@@ -218,5 +218,168 @@ function meitu_theme_customizer( $wp_customize ) {
             'step' => 5,
         ),
     ) );
+
+    // ========================================
+    // 瀑布流广告配置（index_ad）
+    // ========================================
+    $wp_customize->add_setting( 'index_ad', array(
+        'default'           => array(),
+        'sanitize_callback' => 'meitu_sanitize_advertisements',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'index_ad_control', array(
+        'label'       => __( '瀑布流广告配置', 'meitu' ),
+        'description' => __( '在瀑布流第一张图位置显示的广告。请以 JSON 格式输入。<br>格式：<code>[{"ad_id":"ad1","ad_img":"图片URL","ad_url":"链接URL","ad_switcher":"1"}]</code><br>ad_switcher: 1=启用, 0=禁用', 'meitu' ),
+        'section'     => 'meitu_settings',
+        'type'        => 'textarea',
+        'settings'    => 'index_ad',
+        'input_attrs' => array(
+            'rows'  => 8,
+            'style' => 'font-family: monospace; font-size: 12px;',
+        ),
+    ) );
+
+    // ========================================
+    // 横幅广告配置（opt_ad）
+    // ========================================
+    $wp_customize->add_setting( 'opt_ad', array(
+        'default'           => array(),
+        'sanitize_callback' => 'meitu_sanitize_advertisements',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'opt_ad_control', array(
+        'label'       => __( '横幅广告配置', 'meitu' ),
+        'description' => __( '在通知栏下方显示的横幅广告。请以 JSON 格式输入。<br>格式：<code>[{"ad_id":"ad1","ad_img":"图片URL","ad_url":"链接URL","ad_switcher":"1"}]</code><br>最多 3 个广告，布局自动适配。', 'meitu' ),
+        'section'     => 'meitu_settings',
+        'type'        => 'textarea',
+        'settings'    => 'opt_ad',
+        'input_attrs' => array(
+            'rows'  => 10,
+            'style' => 'font-family: monospace; font-size: 12px;',
+        ),
+    ) );
 }
 add_action( 'customize_register', 'meitu_theme_customizer' );
+
+/**
+ * 清理和验证广告配置数据
+ * 
+ * @param string $input JSON 格式的广告配置字符串
+ * @return array 清理后的广告配置数组
+ */
+function meitu_sanitize_advertisements( $input ) {
+    // 如果输入为空，返回空数组
+    if ( empty( $input ) ) {
+        return array();
+    }
+
+    // 尝试解析 JSON
+    $ads = json_decode( $input, true );
+
+    // JSON 解析失败，返回空数组
+    if ( ! is_array( $ads ) ) {
+        return array();
+    }
+
+    // 清理每个广告数据
+    $sanitized_ads = array();
+    foreach ( $ads as $ad ) {
+        // 确保是数组且包含必要字段
+        if ( ! is_array( $ad ) || ! isset( $ad['ad_id'] ) ) {
+            continue;
+        }
+
+        $sanitized_ads[] = array(
+            'ad_id'       => sanitize_text_field( $ad['ad_id'] ),
+            'ad_img'      => esc_url_raw( $ad['ad_img'] ?? '' ),
+            'ad_url'      => esc_url_raw( $ad['ad_url'] ?? '' ),
+            'ad_switcher' => isset( $ad['ad_switcher'] ) ? sanitize_text_field( $ad['ad_switcher'] ) : '1',
+        );
+    }
+
+    return $sanitized_ads;
+}
+
+/**
+ * 获取横幅广告配置数据（用于通知栏下方）
+ * 
+ * 优先从 get_theme_mod 获取，如果不存在则从 get_option 获取
+ * 
+ * @return array 横幅广告配置数组
+ */
+function meitu_get_advertisements() {
+    // 1. 尝试从主题自定义选项获取
+    $opt_ad = get_theme_mod( 'opt_ad', array() );
+
+    // 2. 如果为空，尝试从 WordPress 选项获取
+    if ( empty( $opt_ad ) ) {
+        $opt_ad = get_option( 'opt_ad', array() );
+    }
+
+    // 3. 确保返回值是数组
+    if ( ! is_array( $opt_ad ) ) {
+        return array();
+    }
+
+    // 4. 过滤：仅返回启用的广告（ad_switcher = '1'）
+    $enabled_ads = array_filter( $opt_ad, function( $ad ) {
+        return isset( $ad['ad_switcher'] ) && $ad['ad_switcher'] === '1';
+    } );
+
+    // 5. 重新索引数组
+    return array_values( $enabled_ads );
+}
+
+/**
+ * 获取瀑布流内置广告（支持多个广告）
+ * 
+ * 从 index_ad 配置中获取所有启用的广告
+ * 
+ * @return array 广告数据数组，如果没有广告则返回空数组
+ * 
+ * 返回格式：
+ * array(
+ *     array(
+ *         'ad_id'   => 'ad1',
+ *         'ad_img'  => 'https://example.com/ad.jpg',
+ *         'ad_url'  => 'https://example.com/link',
+ *     ),
+ *     ...
+ * )
+ */
+function meitu_get_waterfall_ads() {
+    // 1. 尝试从主题自定义选项获取
+    $index_ad = get_theme_mod( 'index_ad', array() );
+
+    // 2. 如果为空，尝试从 WordPress 选项获取
+    if ( empty( $index_ad ) ) {
+        $index_ad = get_option( 'index_ad', array() );
+    }
+
+    // 3. 确保返回值是数组
+    if ( ! is_array( $index_ad ) || empty( $index_ad ) ) {
+        return array();
+    }
+
+    // 4. 过滤：仅返回启用的广告
+    $enabled_ads = array_filter( $index_ad, function( $ad ) {
+        return isset( $ad['ad_switcher'] ) && $ad['ad_switcher'] === '1';
+    } );
+
+    // 5. 重新索引
+    $enabled_ads = array_values( $enabled_ads );
+
+    // 6. 清理数据，只保留必要字段
+    $clean_ads = array();
+    foreach ( $enabled_ads as $ad ) {
+        $clean_ads[] = array(
+            'ad_id'  => $ad['ad_id'] ?? '',
+            'ad_img' => $ad['ad_img'] ?? '',
+            'ad_url' => $ad['ad_url'] ?? '',
+        );
+    }
+
+    return $clean_ads;
+}

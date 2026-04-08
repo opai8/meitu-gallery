@@ -1,25 +1,38 @@
-$(function () {
+/**
+ * 美图库主题脚本 - 单文章图集版
+ * 
+ * 功能：
+ * 1. 灯箱预览（支持广告图片）
+ * 2. 上/下一页导航
+ * 3. 自动播放
+ * 4. 广告点击跳转
+ */
 
-    // ===== 从 DOM 中获取图片数据 =====
-    var images = [];
-    $('.waterfall-item').each(function () {
-        var $item = $(this);
-        var index = parseInt($item.data('index'));
-        var thumbnail = $item.find('img').attr('src');
-        var full = $item.data('full') || thumbnail;
-        
-        images[index] = {
-            thumbnail: thumbnail,
-            full: full
-        };
-    });
+jQuery(function ($) {
 
-    var totalImages = images.length;
+    // ========================================
+    // 1. 初始化变量
+    // ========================================
+    
+    // 获取所有瀑布流项目（包括广告）
+    var $waterfallItems = $('.waterfall-item');
+    var totalItems = $waterfallItems.length;  // 总数（包括广告）
     var currentIndex = 0;
     var autoplayTimer = null;
     var isPlaying = false;
+    
+    // 广告标记
+    var AD_ITEM_CLASS = 'waterfall-ad';
+    var AD_DATA_ATTR = 'data-is-ad';
 
-    // ===== 灯箱功能 =====
+    // ========================================
+    // 2. 灯箱功能
+    // ========================================
+
+    /**
+     * 打开灯箱
+     * @param {number} index - 当前点击图片的索引
+     */
     function openLightbox(index) {
         currentIndex = index;
         showImage(index);
@@ -27,50 +40,92 @@ $(function () {
         $('body').css('overflow', 'hidden');
     }
 
+    /**
+     * 关闭灯箱
+     */
     function closeLightbox() {
         $('#lightbox').removeClass('active');
         $('body').css('overflow', '');
         stopAutoplay();
     }
 
+    /**
+     * 显示指定索引的图片
+     * @param {number} index - 图片索引
+     */
     function showImage(index) {
         var $img = $('#lightboxImg');
         var $loading = $('#lightboxLoading');
+        var $item = $waterfallItems.eq(index);
 
+        // 显示加载中
         $loading.show();
         $img.css('opacity', 0);
 
-        var bigSrc = images[index].full;
+        // 获取大图 URL
+        var fullUrl = $item.data('full');
+
+        // 预加载大图
         var tempImg = new Image();
         tempImg.onload = function () {
-            $img.attr('src', bigSrc);
+            $img.attr('src', fullUrl);
             $loading.hide();
             $img.animate({ opacity: 1 }, 200);
         };
         tempImg.onerror = function () {
-            $img.attr('src', images[index].thumbnail);
+            // 加载失败时使用缩略图
+            $img.attr('src', $item.find('img').attr('src'));
             $loading.hide();
             $img.animate({ opacity: 1 }, 200);
         };
-        tempImg.src = bigSrc;
+        tempImg.src = fullUrl;
 
-        updatePageInfo();
+        // 更新页码信息
+        updatePageInfo(index);
     }
 
-    function updatePageInfo() {
-        $('#pageInfo').text('图片 ' + (currentIndex + 1) + ' / 共 ' + totalImages + ' 张');
+    /**
+     * 更新页码信息
+     * @param {number} index - 当前索引
+     */
+    function updatePageInfo(index) {
+        // 计算实际图片序号（排除广告）
+        var actualIndex = 0;
+        var totalImages = 0;
+        
+        $waterfallItems.each(function(i) {
+            var isAd = $(this).hasClass('waterfall-ad');
+            if (!isAd) {
+                totalImages++;
+                if (i <= index) {
+                    actualIndex++;
+                }
+            }
+        });
+
+        // 显示页码（从 1 开始）
+        $('#pageInfo').text('Image ' + actualIndex + ' / ' + totalImages);
     }
 
+    /**
+     * 上一张图片
+     */
     function prevImage() {
-        currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
         showImage(currentIndex);
     }
 
+    /**
+     * 下一张图片
+     */
     function nextImage() {
-        currentIndex = (currentIndex + 1) % totalImages;
+        currentIndex = (currentIndex + 1) % totalItems;
         showImage(currentIndex);
     }
 
+    /**
+     * 切换自动播放
+     */
     function toggleAutoplay() {
         if (isPlaying) {
             stopAutoplay();
@@ -79,6 +134,9 @@ $(function () {
         }
     }
 
+    /**
+     * 开始自动播放
+     */
     function startAutoplay() {
         isPlaying = true;
         $('#btnAutoplay').addClass('playing');
@@ -89,6 +147,9 @@ $(function () {
         }, 3000);
     }
 
+    /**
+     * 停止自动播放
+     */
     function stopAutoplay() {
         isPlaying = false;
         $('#btnAutoplay').removeClass('playing');
@@ -100,70 +161,92 @@ $(function () {
         }
     }
 
-    function toggleFullscreen() {
-        var el = document.documentElement;
-        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-            if (el.requestFullscreen) {
-                el.requestFullscreen();
-            } else if (el.webkitRequestFullscreen) {
-                el.webkitRequestFullscreen();
+    // ========================================
+    // 3. 事件绑定
+    // ========================================
+
+    // 点击瀑布流项目打开灯箱
+    $waterfallItems.on('click', function (e) {
+        var $item = $(this);
+        var isAd = $item.hasClass('waterfall-ad');
+        
+        // 如果是广告，直接跳转链接（不打开灯箱）
+        if (isAd) {
+            var adUrl = $item.data('ad-url');
+            if (adUrl) {
+                window.open(adUrl, '_blank', 'noopener,noreferrer');
             }
-        } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            }
+            e.preventDefault();
+            return;
         }
-    }
-
-    // ===== 返回顶部按钮 =====
-    var $backToTop = $('#backToTop');
-    $(window).on('scroll', function () {
-        if ($(this).scrollTop() > 400) {
-            $backToTop.addClass('visible');
-        } else {
-            $backToTop.removeClass('visible');
-        }
-    });
-    $backToTop.on('click', function () {
-        $('html, body').animate({ scrollTop: 0 }, 400);
-    });
-
-    // ===== 事件绑定 =====
-
-    // 点击图片打开灯箱
-    $(document).on('click', '.waterfall-item', function () {
-        var index = parseInt($(this).data('index'));
+        
+        // 普通图片，打开灯箱
+        var index = $waterfallItems.index($item);
         openLightbox(index);
     });
 
-    // 关闭按钮
-    $('#btnClose').on('click', function (e) {
-        e.stopPropagation();
-        closeLightbox();
+    // ========================================
+    // 4. 布局切换（移动端单栏/双栏切换）
+    // ========================================
+    
+    var isSingleCol = false;
+    var $waterfall = $('#waterfall');
+    var $layoutToggle = $('#layoutToggle');
+    
+    $layoutToggle.on('click', function () {
+        isSingleCol = !isSingleCol;
+        
+        if (isSingleCol) {
+            // 切换到单栏模式
+            $waterfall.addClass('single-col');
+            $(this).find('.toggle-label').text('双栏模式');
+            $(this).find('.toggle-icon').html(
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
+                '<rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/></svg>'
+            );
+        } else {
+            // 切换到双栏模式
+            $waterfall.removeClass('single-col');
+            $(this).find('.toggle-label').text('单栏模式');
+            $(this).find('.toggle-icon').html(
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
+                '<rect x="5" y="3" width="14" height="18" rx="1"/></svg>'
+            );
+        }
     });
 
-    // 点击深色背景关闭灯箱（点击卡片区域不关闭）
-    $('#lightbox').on('click', function (e) {
-        if (e.target === this) {
+    // ========================================
+    // 5. 灯箱事件绑定
+    // ========================================
+
+    // 关闭灯箱
+    $('#lightbox, #btnClose').on('click', function (e) {
+        if (e.target === this || e.target.id === 'btnClose' || $(e.target).closest('#btnClose').length) {
             closeLightbox();
         }
     });
 
-    // 工具栏控制按钮
-    $('#btnPrev').on('click', function (e) { e.stopPropagation(); prevImage(); });
-    $('#btnNext').on('click', function (e) { e.stopPropagation(); nextImage(); });
-    $('#btnAutoplay').on('click', function (e) { e.stopPropagation(); toggleAutoplay(); });
-    $('#btnFullscreen').on('click', function (e) { e.stopPropagation(); toggleFullscreen(); });
+    // 上/下一页按钮
+    $('#btnPrev, #hoverLeft').on('click', function (e) {
+        e.stopPropagation();
+        prevImage();
+    });
 
-    // 图片内部悬浮箭头
-    $('#hoverLeft').on('click', function (e) { e.stopPropagation(); prevImage(); });
-    $('#hoverRight').on('click', function (e) { e.stopPropagation(); nextImage(); });
+    $('#btnNext, #hoverRight').on('click', function (e) {
+        e.stopPropagation();
+        nextImage();
+    });
+
+    // 自动播放按钮
+    $('#btnAutoplay').on('click', function (e) {
+        e.stopPropagation();
+        toggleAutoplay();
+    });
 
     // 键盘导航
     $(document).on('keydown', function (e) {
         if (!$('#lightbox').hasClass('active')) return;
+
         switch (e.key) {
             case 'ArrowLeft':
                 prevImage();
@@ -174,36 +257,25 @@ $(function () {
             case 'Escape':
                 closeLightbox();
                 break;
-            case ' ':
-                e.preventDefault();
-                toggleAutoplay();
-                break;
-            case 'f':
-                toggleFullscreen();
-                break;
         }
     });
 
-    // ===== 布局切换（移动端单栏/双栏切换） =====
-    var isSingleCol = false;
-    $('#layoutToggle').on('click', function () {
-        isSingleCol = !isSingleCol;
-        var $waterfall = $('#waterfall');
-        if (isSingleCol) {
-            $waterfall.addClass('single-col');
-            $(this).find('.toggle-label').text('双栏模式');
-            $(this).find('.toggle-icon').html(
-                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
-                '<rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/></svg>'
-            );
+    // ========================================
+    // 6. 回到顶部按钮
+    // ========================================
+
+    var $backToTop = $('#backToTop');
+
+    $(window).on('scroll', function () {
+        if ($(this).scrollTop() > 300) {
+            $backToTop.addClass('visible');
         } else {
-            $waterfall.removeClass('single-col');
-            $(this).find('.toggle-label').text('单栏模式');
-            $(this).find('.toggle-icon').html(
-                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
-                '<rect x="5" y="3" width="14" height="18" rx="1"/></svg>'
-            );
+            $backToTop.removeClass('visible');
         }
+    });
+
+    $backToTop.on('click', function () {
+        $('html, body').animate({ scrollTop: 0 }, 400);
     });
 
 });
