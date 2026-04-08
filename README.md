@@ -20,7 +20,7 @@
 > 💡 移动端效果[单栏/双栏]
 
 ![预览图片](screenshot/iapp1.png?raw=true)
-<< OR >>
+< OR >
 ![预览图片](screenshot/iapp2.png?raw=true)
 
 
