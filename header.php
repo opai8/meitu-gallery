@@ -8,56 +8,53 @@
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
+
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
 
-<!-- ========== 页面头部 ========== -->
-<header class="site-header">
-    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="logo">
-        <?php bloginfo( 'name' ); ?>
-    </a>
-    
-    <div class="nav-center">
-        <span><?php echo esc_html( get_bloginfo( 'description' ) ); ?></span>
-        <?php
-        if ( has_nav_menu( 'primary' ) ) {
-            wp_nav_menu( array(
-                'theme_location' => 'primary',
-                'container'      => false,
-                'menu_class'     => 'nav-menu',
-                'fallback_cb'    => false,
-            ) );
-        }
-        ?>
-    </div>
-    
-    <div class="nav-right">
-        <a href="#" class="social-link" title="Telegram">
-            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-            <span>Telegram</span>
-        </a>
-        <a href="#" class="social-link" title="Bilibili">
-            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>
-            <span>Bilibili</span>
-        </a>
-        <a href="#" class="social-link" title="Weibo">
-            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M10.098 20.323c-3.977.391-7.414-1.406-7.672-4.02-.259-2.609 2.759-5.047 6.74-5.441 3.979-.394 7.413 1.404 7.671 4.018.259 2.6-2.759 5.049-6.739 5.443zM9.05 17.219c-.384.616-1.208.884-1.829.602-.612-.279-.793-.991-.406-1.593.379-.595 1.176-.861 1.793-.583.631.283.822.987.442 1.574zm1.27-1.627c-.141.237-.449.353-.689.253-.236-.09-.307-.371-.165-.601.14-.232.44-.354.68-.256.24.1.315.37.174.604zm.176-2.719c-1.893-.493-4.033.45-4.857 2.118-.836 1.704-.026 3.591 1.886 4.21 1.983.64 4.318-.341 5.132-2.145.8-1.752-.145-3.676-2.161-4.183zM17.561 7.837c-.41-.114-.689-.189-.474-.681.469-1.071.519-1.994.01-2.659-.953-1.245-3.556-1.181-6.536-.035 0 0-.937.408-.698-.332.459-1.451.389-2.667-.326-3.368-1.625-1.588-5.951.06-9.667 3.679C-2.497 6.808-3.682 9.568-3.682 12c0 4.642 5.949 7.466 11.77 7.466 7.631 0 12.706-4.435 12.706-7.952 0-2.121-1.786-3.326-3.233-3.677zM22.459 3.856c1.46 1.603 1.768 3.784.691 5.66-.18.313-.539.423-.851.245-.312-.178-.421-.538-.243-.852.783-1.363.561-2.958-.504-4.127-1.065-1.17-2.693-1.511-4.105-.924-.323.134-.693-.018-.827-.341-.135-.322.018-.692.341-.827 1.946-.807 4.192-.381 5.498 1.166z"/></svg>
-            <span>Weibo</span>
-        </a>
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>">返回主页区域</a>
-    </div>
-</header>
+<body>
 
-<!-- ========== 通知栏 ========== -->
-<?php if ( get_bloginfo( 'description' ) ) : ?>
-<div class="notice-bar">
-    <span>最近更新</span> 
-    <?php 
+    <!-- ========== 页面头部 ========== -->
+    <header class="site-header">
+        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="logo">
+            <?php echo get_seo_title(); ?>
+        </a>
+
+        <div class="nav-center">
+            <span><?php echo get_seo_description(); ?></span>
+        </div>
+
+        <div class="nav-right">
+            <a href="#" class="social-link" title="Telegram">
+                <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                </svg>
+                <span>Telegram</span>
+            </a>
+            <a href="#" class="social-link" title="Bilibili">
+                <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z" />
+                </svg>
+                <span>Bilibili</span>
+            </a>
+            <a href="#" class="social-link" title="Weibo">
+                <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10.098 20.323c-3.977.391-7.414-1.406-7.672-4.02-.259-2.609 2.759-5.047 6.74-5.441 3.979-.394 7.413 1.404 7.671 4.018.259 2.6-2.759 5.049-6.739 5.443zM9.05 17.219c-.384.616-1.208.884-1.829.602-.612-.279-.793-.991-.406-1.593.379-.595 1.176-.861 1.793-.583.631.283.822.987.442 1.574zm1.27-1.627c-.141.237-.449.353-.689.253-.236-.09-.307-.371-.165-.601.14-.232.44-.354.68-.256.24.1.315.37.174.604zm.176-2.719c-1.893-.493-4.033.45-4.857 2.118-.836 1.704-.026 3.591 1.886 4.21 1.983.64 4.318-.341 5.132-2.145.8-1.752-.145-3.676-2.161-4.183zM17.561 7.837c-.41-.114-.689-.189-.474-.681.469-1.071.519-1.994.01-2.659-.953-1.245-3.556-1.181-6.536-.035 0 0-.937.408-.698-.332.459-1.451.389-2.667-.326-3.368-1.625-1.588-5.951.06-9.667 3.679C-2.497 6.808-3.682 9.568-3.682 12c0 4.642 5.949 7.466 11.77 7.466 7.631 0 12.706-4.435 12.706-7.952 0-2.121-1.786-3.326-3.233-3.677zM22.459 3.856c1.46 1.603 1.768 3.784.691 5.66-.18.313-.539.423-.851.245-.312-.178-.421-.538-.243-.852.783-1.363.561-2.958-.504-4.127-1.065-1.17-2.693-1.511-4.105-.924-.323.134-.693-.018-.827-.341-.135-.322.018-.692.341-.827 1.946-.807 4.192-.381 5.498 1.166z" />
+                </svg>
+                <span>Weibo</span>
+            </a>
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>">返回主页区域</a>
+        </div>
+    </header>
+
+    <!-- ========== 通知栏 ========== -->
+    <?php if ( get_bloginfo( 'description' ) ) : ?>
+    <div class="notice-bar">
+        <span>最近更新</span>
+        <?php 
         // 获取最新一篇已发布文章的发布日期
         $latest_posts = get_posts( array(
             'post_type'      => 'post',
@@ -76,11 +73,11 @@
             echo esc_html( '暂无已发布文章' );
         }
     ?>
-</div>
-<?php endif; ?>
+    </div>
+    <?php endif; ?>
 
-<!-- ========== 广告区域 ========== -->
-<?php
+    <!-- ========== 广告区域 ========== -->
+    <?php
 /**
  * 广告区域渲染逻辑
  * 
@@ -97,28 +94,28 @@
 $enabled_ads = meitu_get_advertisements();
 
 // 2. 开发环境：如果无数据，加载静态测试数据（便于调试）
-if ( empty( $enabled_ads ) && defined( 'WP_DEBUG' ) ) {
-    $enabled_ads = array(
-        array(
-            'ad_id'       => 'ad1',
-            'ad_img'      => 'https://a.hinimg.com/hm-files/2026/04/f6db47efb8d1e9f3c7f44f244c681fb7.jpg',
-            'ad_url'      => 'https://example.com/ad1',
-            'ad_switcher' => '1',
-        ),
-        array(
-            'ad_id'       => 'ad2',
-            'ad_img'      => 'https://a.hinimg.com/hm-files/2026/04/588fe9a506860a6fd02db1c17be7a89c.jpg',
-            'ad_url'      => 'https://example.com/ad2',
-            'ad_switcher' => '1',
-        ),
-        array(
-            'ad_id'       => 'ad3',
-            'ad_img'      => 'https://a.hinimg.com/hm-files/2026/04/588fe9a506860a6fd02db1c17be7a89c.jpg',
-            'ad_url'      => 'https://example.com/ad3',
-            'ad_switcher' => '1',
-        ),
-    );
-}
+// if ( empty( $enabled_ads ) && defined( 'WP_DEBUG' ) ) {
+    // $enabled_ads = array(
+        // array(
+            // 'ad_id'       => 'ad1',
+            // 'ad_img'      => 'https://a.hinimg.com/hm-files/2026/04/f6db47efb8d1e9f3c7f44f244c681fb7.jpg',
+            // 'ad_url'      => 'https://example.com/ad1',
+            // 'ad_switcher' => '1',
+        // ),
+        // array(
+            // 'ad_id'       => 'ad2',
+            // 'ad_img'      => 'https://a.hinimg.com/hm-files/2026/04/588fe9a506860a6fd02db1c17be7a89c.jpg',
+            // 'ad_url'      => 'https://example.com/ad2',
+            // 'ad_switcher' => '1',
+        // ),
+        // array(
+            // 'ad_id'       => 'ad3',
+            // 'ad_img'      => 'https://a.hinimg.com/hm-files/2026/04/588fe9a506860a6fd02db1c17be7a89c.jpg',
+            // 'ad_url'      => 'https://example.com/ad3',
+            // 'ad_switcher' => '1',
+        // ),
+    // );
+// }
 
 // 3. 获取广告总数
 $ad_count = count( $enabled_ads );
@@ -126,103 +123,73 @@ $ad_count = count( $enabled_ads );
 // 4. 根据广告数量渲染不同布局
 if ( $ad_count > 0 ) :
 ?>
-<div class="ad-container">
-    <?php if ( 1 === $ad_count ) : ?>
+    <div class="ad-container">
+        <?php if ( 1 === $ad_count ) : ?>
         <!-- 情况 1：只有 1 个广告 → 单条横幅全屏 -->
         <div class="ad-banner">
-            <a href="<?php echo esc_url( $enabled_ads[0]['ad_url'] ); ?>" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="ad-link">
-                <img src="<?php echo esc_url( $enabled_ads[0]['ad_img'] ); ?>" 
-                     alt="广告" 
-                     loading="lazy">
+            <a href="<?php echo esc_url( $enabled_ads[0]['ad_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="ad-link">
+                <img src="<?php echo esc_url( $enabled_ads[0]['ad_img'] ); ?>" alt="广告" loading="lazy">
                 <span class="ad-badge">AD</span>
             </a>
         </div>
 
-    <?php elseif ( 2 === $ad_count ) : ?>
+        <?php elseif ( 2 === $ad_count ) : ?>
         <!-- 情况 2：有 2 个广告 → 两条横幅全屏 -->
         <div class="ad-banner">
-            <a href="<?php echo esc_url( $enabled_ads[0]['ad_url'] ); ?>" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="ad-link">
-                <img src="<?php echo esc_url( $enabled_ads[0]['ad_img'] ); ?>" 
-                     alt="广告" 
-                     loading="lazy">
+            <a href="<?php echo esc_url( $enabled_ads[0]['ad_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="ad-link">
+                <img src="<?php echo esc_url( $enabled_ads[0]['ad_img'] ); ?>" alt="广告" loading="lazy">
                 <span class="ad-badge">AD</span>
             </a>
         </div>
         <div class="ad-banner">
-            <a href="<?php echo esc_url( $enabled_ads[1]['ad_url'] ); ?>" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="ad-link">
-                <img src="<?php echo esc_url( $enabled_ads[1]['ad_img'] ); ?>" 
-                     alt="广告" 
-                     loading="lazy">
+            <a href="<?php echo esc_url( $enabled_ads[1]['ad_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="ad-link">
+                <img src="<?php echo esc_url( $enabled_ads[1]['ad_img'] ); ?>" alt="广告" loading="lazy">
                 <span class="ad-badge">AD</span>
             </a>
         </div>
 
-    <?php elseif ( $ad_count >= 3 ) : ?>
+        <?php elseif ( $ad_count >= 3 ) : ?>
         <!-- 情况 3：有 3 个或更多广告 → 第一条横幅 + 后两条双列（最多显示 3 个） -->
-        
+
         <!-- 第一行：横幅广告（第 1 个） -->
         <div class="ad-banner">
-            <a href="<?php echo esc_url( $enabled_ads[0]['ad_url'] ); ?>" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="ad-link">
-                <img src="<?php echo esc_url( $enabled_ads[0]['ad_img'] ); ?>" 
-                     alt="广告" 
-                     loading="lazy">
+            <a href="<?php echo esc_url( $enabled_ads[0]['ad_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="ad-link">
+                <img src="<?php echo esc_url( $enabled_ads[0]['ad_img'] ); ?>" alt="广告" loading="lazy">
                 <span class="ad-badge">AD</span>
             </a>
         </div>
-        
+
         <!-- 第二行：双列广告（第 2、3 个） -->
         <div class="ad-grid">
             <div class="ad-item">
-                <a href="<?php echo esc_url( $enabled_ads[1]['ad_url'] ); ?>" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   class="ad-link">
-                    <img src="<?php echo esc_url( $enabled_ads[1]['ad_img'] ); ?>" 
-                         alt="广告" 
-                         loading="lazy">
+                <a href="<?php echo esc_url( $enabled_ads[1]['ad_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="ad-link">
+                    <img src="<?php echo esc_url( $enabled_ads[1]['ad_img'] ); ?>" alt="广告" loading="lazy">
                     <span class="ad-badge">AD</span>
                 </a>
             </div>
             <div class="ad-item">
-                <a href="<?php echo esc_url( $enabled_ads[2]['ad_url'] ); ?>" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   class="ad-link">
-                    <img src="<?php echo esc_url( $enabled_ads[2]['ad_img'] ); ?>" 
-                         alt="广告" 
-                         loading="lazy">
+                <a href="<?php echo esc_url( $enabled_ads[2]['ad_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="ad-link">
+                    <img src="<?php echo esc_url( $enabled_ads[2]['ad_img'] ); ?>" alt="广告" loading="lazy">
                     <span class="ad-badge">AD</span>
                 </a>
             </div>
         </div>
+        <?php endif; ?>
+    </div>
+
+    <!-- 广告与内容分割线（仅在有广告时显示） -->
+    <div class="ad-content-divider"></div>
+
     <?php endif; ?>
-</div>
 
-<!-- 广告与内容分割线（仅在有广告时显示） -->
-<div class="ad-content-divider"></div>
-
-<?php endif; ?>
-
-<!-- ========== 布局切换按钮（仅移动端显示） ========== -->
-<div class="layout-toggle-bar">
-    <button class="layout-toggle-btn" id="layoutToggle">
-        <span class="toggle-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="5" y="3" width="14" height="18" rx="1"/>
-            </svg>
-        </span>
-        <span class="toggle-label">单栏模式</span>
-    </button>
-</div>
+    <!-- ========== 布局切换按钮（仅移动端显示） ========== -->
+    <div class="layout-toggle-bar">
+        <button class="layout-toggle-btn" id="layoutToggle">
+            <span class="toggle-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="5" y="3" width="14" height="18" rx="1" />
+                </svg>
+            </span>
+            <span class="toggle-label">单栏模式</span>
+        </button>
+    </div>

@@ -1,10 +1,10 @@
 /*
 Theme Name: 美图库 - 单文章图集版
 Theme URI: https://github.com/yourusername/meitu-wp-theme
-Author: 美图库团队
+Author: ke Jin
 Author URI: https://example.com
 Description: 专为单文章图集展示的 WordPress 主题。自动从最新一篇文章中提取前N张图片（默认50张），以瀑布流形式展示。适合图集、相册、作品集等场景。
-Version: 2.0.1
+Version: 3.0.1
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 7.4
@@ -13,7 +13,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: meitu
 Tags: blog, photography, portfolio, responsive-layout, custom-colors, featured-images, full-width-template, theme-options, translation-ready
 
-本主题基于 demo2 改进，专注于从单篇文章中提取图片集。
+本主题专注于从单篇文章中提取图片集。
 */
 
 /* ========== 重置与基础样式 ========== */
@@ -466,6 +466,19 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
     height: 80px;
     object-fit: cover;  /* 保持宽高比，超出部分裁剪 */
     display: block;
+	/* 两端弱化效果 */
+    mask-image: linear-gradient(to right, 
+        rgba(0, 0, 0, 0.3) 0%, 
+        rgba(0, 0, 0, 1) 20%, 
+        rgba(0, 0, 0, 1) 80%, 
+        rgba(0, 0, 0, 0.3) 100%
+    );
+    -webkit-mask-image: linear-gradient(to right, 
+        rgba(0, 0, 0, 0.3) 0%, 
+        rgba(0, 0, 0, 1) 20%, 
+        rgba(0, 0, 0, 1) 80%, 
+        rgba(0, 0, 0, 0.3) 100%
+    );
 }
 
 /* ---------- 双列广告 ---------- */
@@ -494,6 +507,19 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
     height: 100px;
     object-fit: cover;  /* 保持宽高比，超出部分裁剪 */
     display: block;
+	/* 两端弱化效果 */
+    mask-image: linear-gradient(to right, 
+        rgba(0, 0, 0, 0.3) 0%, 
+        rgba(0, 0, 0, 1) 20%, 
+        rgba(0, 0, 0, 1) 80%, 
+        rgba(0, 0, 0, 0.3) 100%
+    );
+    -webkit-mask-image: linear-gradient(to right, 
+        rgba(0, 0, 0, 0.3) 0%, 
+        rgba(0, 0, 0, 1) 20%, 
+        rgba(0, 0, 0, 1) 80%, 
+        rgba(0, 0, 0, 0.3) 100%
+    );
 }
 
 /* ---------- 广告链接 ---------- */
@@ -516,6 +542,9 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
     border-radius: 4px;
     z-index: 10;
     letter-spacing: 0.5px;
+	/* 确保 badge 不被 mask 影响 */
+    mask-image: none;
+    -webkit-mask-image: none;
 }
 
 /* ====================================================

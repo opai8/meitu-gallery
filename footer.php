@@ -11,17 +11,6 @@
     </p>
     <p class="footer-note">本站所有图片均来源于网络，仅供欣赏，如有侵权请联系删除。</p>
     
-    <?php
-    if ( has_nav_menu( 'footer' ) ) {
-        wp_nav_menu( array(
-            'theme_location' => 'footer',
-            'container'      => false,
-            'menu_class'     => 'footer-menu',
-            'fallback_cb'    => false,
-        ) );
-    }
-    ?>
-    
     <?php wp_footer(); ?>
 </footer>
 

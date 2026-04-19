@@ -8,11 +8,8 @@
 
 get_header();
 
-// 获取图片数量设置（默认 50）
-$images_per_page = get_theme_mod( 'meitu_images_per_page', 50 );
-
-// 使用 meitu_get_image() 函数获取最新文章的图片
-$images = meitu_get_image( $images_per_page );
+// 获取图片数量设置（默认 50）且不包含特色图片
+$images = meitu_get_image( 50, true );
 
 // 获取瀑布流内置广告（支持多个广告）
 $waterfall_ads = meitu_get_waterfall_ads();
@@ -51,13 +48,29 @@ $waterfall_ads = meitu_get_waterfall_ads();
             ?>
             
             <?php
+			
+            // 1. 准备图片 URL
             $url = esc_url( $image['url'] );
             $full_url = esc_url( $image['full_url'] );
-            $title = esc_attr( $image['title'] );
-            $alt = esc_attr( $image['alt'] ?: $title );
+
+            // 2. 智能处理 title 和 alt 属性
+            // 优先使用图片自身的 title，如果为空，则使用网站名
+            $title = ! empty( $image['title'] ) ? $image['title'] : get_bloginfo( 'name' );
+            
+            // 优先使用图片自身的 alt，如果为空，则使用 title，再为空则使用网站名
+            $alt = ! empty( $image['alt'] ) ? $image['alt'] : ( ! empty( $image['title'] ) ? $image['title'] : get_bloginfo( 'name' ) );
+
+            // 3. 转义输出
+            $title_attr = esc_attr( $title );
+            $alt_attr = esc_attr( $alt );
+
             ?>
+			
             <div class="waterfall-item" data-index="<?php echo esc_attr( $index ); ?>" data-full="<?php echo esc_url( $full_url ); ?>">
-                <img src="<?php echo esc_url( $url ); ?>" alt="<?php echo esc_attr( $alt ); ?>" loading="lazy" title="<?php echo esc_attr( $title ); ?>">
+                <img src="<?php echo esc_url( $url ); ?>" 
+                     alt="<?php echo esc_attr( $alt_attr ); ?>" 
+                     loading="lazy" 
+                     <?php if ( ! empty( $title_attr ) ) : ?>title="<?php echo esc_attr( $title_attr ); ?>"<?php endif; ?>>
             </div>
         <?php endforeach; ?>
         
