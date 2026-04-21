@@ -4,7 +4,7 @@ Theme URI: https://github.com/yourusername/meitu-wp-theme
 Author: ke Jin
 Author URI: https://example.com
 Description: 专为单文章图集展示的 WordPress 主题。自动从最新一篇文章中提取前N张图片（默认50张），以瀑布流形式展示。适合图集、相册、作品集等场景。
-Version: 3.0.1
+Version: 3.0.2
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 7.4
@@ -924,4 +924,112 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
     .lightbox-image-area img {
         max-height: calc(94vh - 110px);
     }
+}
+
+
+/* ====================================================
+   404 Page
+   ==================================================== */
+.error-404-content {
+	max-width: 90%;
+	margin: 0 auto;
+	padding-top: 80px;
+	text-align: center; /* 内容居中 */
+}
+
+.error-404-image {
+	display: block;
+	max-width: 100%;
+	margin: 0px auto;
+}
+
+.error-404-buttons {
+	width: 400px;
+	margin: 0 auto;
+	max-width: 100%;
+	margin-top: 40px;
+}
+
+.error-404-buttons a {
+	float: left;
+	text-decoration: none;
+	width: 46.5%;
+	border: 1px solid #5298ff;
+	background: #5298ff;
+	color: #FFF;
+	display: block;
+	height: 46px;
+	line-height: 44px;
+	text-align: center;
+	font-size: 16px;
+	border-radius: 3px;
+	overflow: hidden;
+	transition: all 0.3s ease; /* 添加过渡效果 */
+}
+
+.error-404-buttons a:hover {
+	opacity: 0.9; /* 鼠标悬停效果 */
+}
+
+.error-404-buttons .btn-home {
+	margin-right: 7%;
+}
+
+.error-404-buttons .btn-contact {
+	border: 1px solid #d8d8d8;
+	background: #ffffff;
+	color: #8c8c8c;
+}
+
+.error-404-buttons .btn-contact:hover {
+	border-color: #5298ff;
+	color: #5298ff;
+}
+
+/* 搜索框样式 */
+.error-404-search {
+	margin-top: 40px;
+}
+.error-404-search form {
+	display: flex;
+	justify-content: center;
+}
+.error-404-search input[type="search"] {
+	width: 70%;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 3px 0 0 3px;
+	font-size: 16px;
+}
+.error-404-search button {
+	padding: 10px 15px;
+	border: 1px solid #5298ff;
+	background: #5298ff;
+	color: white;
+	cursor: pointer;
+	border-radius: 0 3px 3px 0;
+	font-size: 16px;
+}
+
+/* ========== 404 移动端 ========== */
+@media screen and (max-width: 500px) {
+	.error-404-buttons {
+		width: 85%;
+	}
+
+	.error-404-buttons a {
+		width: 100%;
+		font-size: 15px;
+		height: 42px;
+		line-height: 42px;
+	}
+
+	.error-404-buttons .btn-home {
+		margin-right: 0;
+		margin-bottom: 20px;
+	}
+	
+	.error-404-search input[type="search"] {
+		width: 60%;
+	}
 }

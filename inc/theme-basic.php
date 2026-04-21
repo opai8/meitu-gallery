@@ -2,11 +2,14 @@
 
 /* ========== 基础设置 basic ========== */
 /*
- * 特殊模式 theme-basic-special
- * 功能屏蔽 theme-basic-block
- * 加速优化 theme-basic-speed
- * 扩展增强 theme-basic-extend
- * 伪静态
+ * 主题基础设置模块
+ * 
+ * 模块说明：
+ * - 特殊模式 (theme-basic-special)：哀悼模式、维护模式等
+ * - 功能屏蔽 (theme-basic-block)：禁用不需要的 WordPress 功能
+ * - 加速优化 (theme-basic-speed)：性能优化相关设置
+ * - 扩展增强 (theme-basic-extend)：复制保护等扩展功能
+ * - 伪静态：URL 重写规则配置
  */
 
 CSF::createSection( $prefix, array(
@@ -69,28 +72,28 @@ CSF::createSection( $prefix, array(
             'title'     => '常规功能',
             'subtitle'  => '屏蔽 WordPress 中一些用不上的功能',
             'options'   => array(
-                'opt_revise' => '屏蔽文章修订功能，精简文章表数据',
-                'opt_draft' => '删除已保存草稿,修订以及inherit数据',
-                'opt_trackback' => '彻底关闭Trackback，防止垃圾留言',
-                'opt_xmlrpc' => '关闭XML-RPC功能，只在后台发布文章',
-                'opt_auto_update' => '关闭自动更新功能，通过「仪表盘」手动「更新」',
-                'opt_feed' => '屏蔽站点Feed，防止文章被快速被采集',
+                'opt_revise' => '屏蔽文章修订功能',
+                'opt_revision' => '清理所有文章修订版本',
+                'opt_draft' => '删除已保存草稿以及inherit数据',
+                'opt_xmlrpc' => '关闭XML-RPC功能,只在后台发布文章',
+                'opt_auto_update' => '关闭自动更新功能,通过「仪表盘」手动「更新」',
                 'opt_email_check' => '屏蔽站点管理员邮箱定期验证功能',
-                'opt_unuse_style' => '优化wp_head,移除未使用样式'                
+				'opt_screen_option'  => '移除「帮助」和「显示选项」按钮'
             ),
-			'default'   => array('opt_revise', 'opt_trackback', 'opt_xmlrpc', 'opt_auto_update', 'opt_feed', 'opt_email_check', 'opt_unuse_style')
+			'default'   => array('opt_revise', 'opt_xmlrpc', 'opt_auto_update', 'opt_email_check', 'opt_screen_option')
         ),
 		array(
-            'id'        => 'opt_block_func',
-            'type'      => 'checkbox',
-            'title'     => '函数禁用',
-            'options'   => array(
-                'opt_translation_api' => 'translations_api：访问WordPress.org查询翻译',
-                'opt_wp_phpv' => 'wp_check_php_version：访问WordPress.org查询提服务器PHP版本',
-                'opt_check_browserv' => 'wp_check_browser_version：WordPress会时不时提交你的浏览器版本'
-            ),
-			'default'   => array('opt_translation_api', 'opt_wp_phpv', 'opt_check_browserv')
-        ),
+			'id'        => 'opt_block_func',
+			'type'      => 'checkbox',
+			'title'     => '函数禁用',
+			'subtitle'  => '禁止访问 WordPress.org 获取版本信息',
+			'options'   => array(
+				'opt_translations_api' => '禁止查询翻译文件更新',
+				'opt_wp_phpv' => '禁止检查 PHP 版本兼容性',
+				'opt_check_browserv' => '禁止提交浏览器版本信息'
+			),
+			'default'   => array('opt_translations_api', 'opt_wp_phpv', 'opt_check_browserv')
+		),
 		array(
             'id'        => 'opt_block_transform',
             'type'      => 'checkbox',
@@ -103,17 +106,29 @@ CSF::createSection( $prefix, array(
 			'default'   => array('opt_emoji', 'opt_wptexturize', 'opt_capitalization')
         ),
 		array(
-            'id'        => 'opt_block_backend',
-            'type'      => 'checkbox',
-            'title'     => '后台功能',
-            'options'   => array(
-				'opt_home_bar'       => '移除前台顶部工具栏(管理员默认保留)',
-				'opt_admin_bar' 	 => '移除后台顶部工具栏(包括管理员角色)',
-                'opt_dashboard_tool' => '移除仪表盘的小工具(保留欢迎页面)',
-                'opt_screen_option'  => '移除后台界面右上角的「帮助」和「显示选项」'
-            ),
-			'default'   => array('opt_home_bar',  'opt_dashboard_tool', 'opt_screen_option')
-        ),
+			'id'        => 'opt_block_frontend',
+			'type'      => 'checkbox',
+			'title'     => '前台优化',
+			'subtitle'  => '优化前端页面性能和安全性',
+			'options'   => array(
+				'opt_trackback' => '禁用 Trackback/Pingback，防止垃圾评论',
+				'opt_feed' => '禁用 RSS Feed，防止内容被采集',		
+				'opt_unuse_style' => '移除头部冗余 CSS/JS，提升加载速度'		
+			),
+			'default'   => array('opt_trackback', 'opt_feed', 'opt_unuse_style')
+		),
+		array(
+			'id'        => 'opt_block_backend',
+			'type'      => 'checkbox',
+			'title'     => '后台优化',
+			'subtitle'  => '简化后台界面，提升管理效率',
+			'options'   => array(
+				'opt_home_bar'       => '隐藏前台顶部工具栏（管理员保留）',
+				'opt_admin_bar' 	 => '隐藏后台顶部工具栏（包括管理员）',
+				'opt_dashboard_tool' => '清理仪表盘小工具（保留欢迎面板）'				
+			),
+			'default'   => array('opt_home_bar', 'opt_dashboard_tool')
+		),
 		array(
             'id'        => 'opt_block_page',
             'type'      => 'checkbox',
@@ -125,7 +140,8 @@ CSF::createSection( $prefix, array(
                 'opt_customize_manage'   => '移除「外观-自定义」菜单项页面及其相关资源加载',
                 'opt_theme_editor'   => '移除「外观-主题文件编辑器」菜单项页面及其相关资源加载',
 				'opt_site_health'    => '移除[工具-站点健康页面]「工具-个人数据」菜单项及仪表盘健康状态面板,',
-				'opt_gdpr_privacy'   => '移除[设置-隐私]菜单项页面,由欧洲通用数据保护条例生成'
+				'opt_gdpr_privacy'   => '移除[设置-隐私]菜单项页面,由欧洲通用数据保护条例生成',
+				'opt_editor_metabox'    => '移除[显示帮助]映射在经典编辑器下方的字段'
 				
             ),
 			'default'   => array('opt_site_editor', 'opt_customize_manage', 'opt_theme_editor', 'opt_site_health', 'opt_gdpr_privacy')
@@ -152,13 +168,13 @@ CSF::createSection( $prefix, array(
 			'default'   => array('opt_gutenberg_editor', 'opt_widget_editor')
         ),
 		array(
-            'id'        => 'opt_custom_toolbar',
-            'type'      => 'switcher',
-            'title'     => '自定义后台工具栏',
-            'subtitle'  => '请确保「后台功能-移除后台工具栏」未勾选',
-			'desc'		=> '启用后,刷新页面可看到效果--目前未完成',
-            'default'   => false
-        ),
+			'id'        => 'opt_custom_toolbar',
+			'type'      => 'switcher',
+			'title'     => '自定义后台工具栏',
+			'subtitle'  => '自定义工具栏菜单项',
+			'desc'		=> '启用前请确保「后台优化-隐藏后台工具栏」未勾选',
+			'default'   => false
+		),
 		array(
             'id'        => 'opt_footerinfo_fieldset',
             'type'      => 'fieldset',

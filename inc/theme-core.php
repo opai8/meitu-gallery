@@ -47,6 +47,12 @@ function get_seo_keywords() {
  * 
  */
 function get_seo_title() {
+
+	// 如果是404页面，直接返回固定标题
+    if (is_404()) {
+        return '页面未找到 - 404';
+    }
+	
     // 先尝试获取自定义标题
     $custom_title = my_option('seo_title');
     
