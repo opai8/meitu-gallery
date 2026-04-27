@@ -1,6 +1,6 @@
 <div align="center">
 
-## 美图库 - 高清美图瀑布流展示
+## 美图库【Meitu-Gallery】 - 高清美图瀑布流展示
 
 一个精美的响应式图片瀑布流展示网页，支持灯箱浏览、自动播放、键盘导航等功能。
 
@@ -66,9 +66,8 @@
 ├── functions.php            # 主题入口与资源注册
 ├── screenshot.png           # 后台主题截图
 ├── README.md                # 项目说明
-├── ChangeLOG.md             # 更新日志
 
-├── assets/                  # font-awesome / jquery / myfancybox
+├── asset/                  # font-awesome / jquery / script
 ├── fancybox/                # 首页瀑布流布局与预览
 ├── image/	                 # 图片资源
 ├── 

@@ -144,7 +144,7 @@ CSF::createSection( $prefix, array(
 				'opt_editor_metabox'    => '移除[显示帮助]映射在经典编辑器下方的字段'
 				
             ),
-			'default'   => array('opt_site_editor', 'opt_customize_manage', 'opt_theme_editor', 'opt_site_health', 'opt_gdpr_privacy')
+			'default'   => array('opt_site_editor', 'opt_customize_manage', 'opt_theme_editor', 'opt_site_health', 'opt_gdpr_privacy', 'opt_editor_metabox')
         ),
 		array(
             'id'        => 'opt_block_embed',

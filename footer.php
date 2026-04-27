@@ -6,11 +6,18 @@
 
 <!-- ========== 页脚 ========== -->
 <footer class="site-footer">
+	<!-- 不见不散 -->
+	<p class="footer-ending">
+		<?php echo my_option('footer_ending');?>
+	</p>
+	<!-- 版权信息 -->
     <p class="footer-copyright">
-        Copyright &copy; <?php echo date( 'Y' ); ?> <?php bloginfo( 'name' ); ?> All Rights Reserved.
+        <?php echo my_option('footer_copyright'); ?>
     </p>
-    <p class="footer-note">本站所有图片均来源于网络，仅供欣赏，如有侵权请联系删除。</p>
-    
+	<!-- 版权声明 -->
+    <p class="footer-note">
+		<?php echo my_option('footer_note'); ?>
+	</p>	
     <?php wp_footer(); ?>
 </footer>
 
@@ -70,6 +77,15 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- ========== 统计代码 ========== -->
+<div class="site-‌statistic">
+<?php
+	if( !empty(my_option( 'site_statistical' ) ) ) {
+		echo my_option('site_statistical');
+	}
+?>
 </div>
 
 </body>

@@ -207,7 +207,7 @@ CSF::createSection( $prefix, array(
 			'title'  => '404 页面图片',
 			'subtitle' => '图片显示出来是 404 的形状',
 			'desc' => '建议高度px，请使用png格式的透明图片',
-            'default' => get_template_directory_uri().'/image/404.png',
+            'default' => get_template_directory_uri().'/image/404_1.png',
 			'preview' => true,
             'library' => 'image'
 		)
@@ -223,7 +223,7 @@ CSF::createSection( $prefix, array(
     'icon'			=> 'fas fa-arrow-right',
     'fields'        => array(
 		array(
-            'id'        => 'opt_top_declare',
+            'id'        => 'opt_declare',
             'type'      => 'fieldset',
 			'fields'	=> array(
 				array(
@@ -231,20 +231,23 @@ CSF::createSection( $prefix, array(
                     'content' => '顶部声明',
                 ),
                 array(
-                    'id' => 'opt_header_home',
-                    'type' => 'text',
-                    'title' => '网址导航',
-                    'title' => '回家的路',
-                    'placeholder' => 'https://xxxxx.com',
-                    'default' => 'https://ttdh.eu.org'
-                ),
-                array(
                     'id' => 'opt_telegram',
                     'type' => 'text',
                     'title' => 'Telegram群组',
-                    'placeholder' => 'https://t.me/xxx',
 					'default' => 'https://t.me/yoyonv'
-                )
+                ),
+				array(
+                    'id' => 'opt_github',
+                    'type' => 'text',
+                    'title' => 'Github项目',
+                    'default' => 'https://github.com/opai8/meitu-gallery'
+                ),
+				array(
+                    'id' => 'opt_email',
+                    'type' => 'text',
+                    'title' => 'Email邮箱',
+                    'default' => 'hongyexs@gmail.com'
+                ),
 			)
         ),
         array(
@@ -255,19 +258,16 @@ CSF::createSection( $prefix, array(
             'default' => '明天，我们不见不散！'
         ),
 		array(
-            'id' => 'footer_email',
-            'type' => 'text',
-            'title' => '邮箱',
-			'subtitle' => '管理员邮箱',
-            'placeholder' => 'xxx@qq.com',
-			'default' => 'hongyexs@gmail.com'
-        ),
-		array(
             'id' => 'footer_copyright',
             'type' => 'textarea',
             'title' => '版权信息',
-            'default' => '<p>COPYRIGHT &copy; 2018 - 2026 . All Rights Reserved.</p>'.
-				'<p>本站所有图片均来源于网络，仅供欣赏，如有侵权请联系删除。</p>'
+            'default' => 'COPYRIGHT &copy; 2018 - 2026 . All Rights Reserved.'
+        ),
+		array(
+            'id' => 'footer_note',
+            'type' => 'textarea',
+            'title' => '版权声明',
+            'default' => '本站所有图片均来源于网络，仅供欣赏，如有侵权请联系删除。'
         ),
 		array(
 			'id'       => 'site_statistical',

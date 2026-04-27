@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // 后台专属功能
 add_action( 'admin_init', function() {
+	disable_opt_common();	
 	remove_opt_func();
 	disable_opt_transform();
 	remove_opt_embed();	
@@ -26,7 +27,6 @@ add_action( 'admin_init', function() {
 
 // 前端专属功能
 add_action( 'init', function() {
-	disable_opt_common();
 	disable_opt_frontend();
 });
 
@@ -217,7 +217,7 @@ function remove_opt_page() {
     }
 	
 	if ( in_array( 'opt_editor_metabox', $option ) ) {
-        // remove_editor_metabox();
+        remove_editor_metabox();
     }
 	
 }
@@ -511,10 +511,9 @@ function disable_auto_update() {
 
     // 5. 【关键】阻止WordPress检查更新 (最高效的禁用方式)
     // 通过返回null，让WordPress认为没有可用的更新
-	// 与后面'顶部admin_bar'重叠
-    // add_filter( 'pre_site_transient_update_core', '__return_null' );
-    // add_filter( 'pre_site_transient_update_plugins', '__return_null' );
-    // add_filter( 'pre_site_transient_update_themes', '__return_null' );
+    add_filter( 'pre_site_transient_update_core', '__return_null' );
+    add_filter( 'pre_site_transient_update_plugins', '__return_null' );
+    add_filter( 'pre_site_transient_update_themes', '__return_null' );
 
     // ==========================================================
     // 第二部分：移除相关的定时任务和通知
@@ -1318,7 +1317,7 @@ function remove_gdpr_privacy() {
 // ========================================
 // . 移除[显示帮助]映射在经典编辑器下方的字段 .
 // ========================================
-function remove_editor_metabox() {echo '996';
+function remove_editor_metabox() {
 	// 移除摘要元框
     remove_meta_box('postexcerpt', 'post', 'normal');
     

@@ -575,6 +575,14 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
     padding: 20px 16px 28px;
     text-align: center;
 }
+.footer-ending {
+	font-size:20px;
+	color:#fff;
+	background:#229900;
+	width:250px;
+	margin:0 auto 10px;
+	padding:10px;
+}
 .footer-copyright {
     font-size: 13px;
     color: #888;
